@@ -81,16 +81,17 @@ const Checkout = (props) => {
         <input type="text" id="street" ref={streetInputRef} />
         {!formInputsValidity.street && <p> Please enter a valid street!</p>}
       </div>
-      <div className={cityControlClasses}>
+      <div className={postalControlClasses}>
         <label htmlFor="postal"> Postal Code</label>
         <input type="text" id="postal" ref={postalInputRef} />
         {!formInputsValidity.postalCode && (
-          <p> Please enter a valid postal code that is at least 5 digits!</p>
+          <p> Please enter a valid postal code that is 5 digits!</p>
         )}
       </div>
-      <div className={postalControlClasses}>
+      <div className={cityControlClasses}>
         <label htmlFor="city">City</label>
         <input type="text" id="city" ref={cityInputRef} />
+        {!formInputsValidity.city && <p> Please enter a valid city name!</p>}
       </div>
       <div className={classes.actions}>
         <button type="button" onClick={props.hideCartHandler}>

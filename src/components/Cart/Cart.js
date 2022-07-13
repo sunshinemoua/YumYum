@@ -27,7 +27,6 @@ const Cart = (props) => {
 
   const orderHandler = (id) => {
     setIsCheckout(true);
-    // setDidSubmit(true);
   };
 
   const submitOrderHandler = async (userData) => {
@@ -43,6 +42,8 @@ const Cart = (props) => {
       }
     );
     setIsSubmitting(false);
+    setDidSubmit(true);
+    cartCtx.clearCart();
   };
 
   const cartItems = (
@@ -78,28 +79,40 @@ const Cart = (props) => {
   );
   const cartModalContent = (
     <React.Fragment>
-      {cartItems}
-      <div className={classes.total}>
-        <span>Total Amount</span>
-        <span>{totalAmount}</span>
+      {cartItems}{" "}
+      <div>
+        <div className={classes.total}>
+          <span>Total Amount</span>
+          <span>{totalAmount}</span>
+        </div>
+        {isCheckout && (
+          <Checkout
+            submitOrderHandler={submitOrderHandler}
+            hideCartHandler={props.hideCartHandler}
+          />
+        )}
       </div>
-      {isCheckout && (
-        <Checkout
-          submitOrderHandler={submitOrderHandler}
-          hideCartHandler={props.hideCartHandler}
-        />
-      )}
       {!isCheckout && modalActions}
     </React.Fragment>
   );
   const isSubmittingModalContent = <p>Sending order....</p>;
-  const didSubmitModalContent = <p> Successfully sent your yummy order!! </p>;
+
+  const didSubmitModalContent = (
+    <React.Fragment>
+      <p> Successfully sent your yummy order!! </p>
+      <div className={classes.actions}>
+        <button className={classes.button} onClick={props.hideCartHandler}>
+          Close
+        </button>
+      </div>
+    </React.Fragment>
+  );
 
   return (
     <Modal hideCartHandler={props.hideCartHandler}>
       {!isSubmitting && !didSubmit && cartModalContent}
       {isSubmitting && isSubmittingModalContent}
-      {didSubmit && didSubmitModalContent}
+      {!isSubmitting && didSubmit && didSubmitModalContent}
     </Modal>
   );
 };
